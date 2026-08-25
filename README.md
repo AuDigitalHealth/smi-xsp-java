@@ -1,66 +1,40 @@
-# XML Secured Payload Profiles Library
+# smi-xsp - XML Secured Payload Profiles
 
-This is the source code that provides an implementation of the
-XML Secured Payload Profiles using Java.
+Java implementation of XML Secured Payload Profiles for the Australian Digital Health Agency.
 
-Installation
-============
+## Dependency (Maven Central)
 
-To build and test the distributable package, the following must be installed:
+```xml
+<dependency>
+    <groupId>au.gov.nehta</groupId>
+    <artifactId>smi-xsp</artifactId>
+    <version>8.0.0</version>
+</dependency>
+```
 
-This distribution
------------------
-1. Unpack the smi-xsp-*.zip file to the desired location.
-    <XSP_HOME> will be used in this document to refer to the root
-    directory of this implementation.
+## Runtime requirements
 
-Java Development Kit
---------------------
-1. Download and install JDK 8 Update 271 or later.
-      URL: http://java.sun.com/javase/downloads/index.jsp
-      <JDK_HOME> will be used in this document to refer to the root directory
-      of the JDK installation.
-      <JRE_HOME> will be used in this document to refer to <JDK_HOME>/jre.
-2. Add <JDK_HOME>/bin to the path.
-3. Create a JAVA_HOME environment variable pointing to <JDK_HOME>.
+- Java 8 or later
+- Apache Santuario (`xmlsec`) is a transitive dependency and is included automatically
 
-JCE Policy Files
-----------------
-The Java Cryptography Extension (JCE) provides cryptography services in the JDK.
-The JCE policy files in the JDK download are limited in strength due to the
-import control restrictions for some countries. The "unlimited strength"
-capabilities are enabled by installing certain policy files into the JRE.
-1. Download the JCE Unlimited Strength Jurisdiction Policy Files for the
-   installed JDK version.
-      URL: http://java.sun.com/javase/downloads/index.jsp
-2. Unpack the downloaded ZIP file.
-3. Copy the two JAR files (local_policy.jar and US_export_policy.jar) to the
-   <JRE_HOME>/lib/security directory.
-      Overwrite the existing JAR files in the directory.
+## JCE Unlimited Strength
 
-Building and running the code
-=============================
+For JDK 8 versions earlier than 8u161, install the JCE Unlimited Strength Jurisdiction Policy files
+from Oracle to enable full cryptographic strength. JDK 8u161+ and all later JDKs enable unlimited
+strength by default.
 
-The project is supplied with a Maven pom.xml file. Use Maven to build the code.
+## Building from source
 
-Source code
-===========
+See **CONTRIBUTING.md**.
 
-The source code is the src/main/java directory structure.
+## Local development
 
-Licensing
-=========
+See **CONTRIBUTING.md** - Local builds section.
 
-Copyright 2009 NEHTA
+## License
 
-Copyright 2021 ADHA
+Apache License 2.0 - see **LICENSE.txt**.
 
-Licensed under the NEHTA/ADHA Open Source (Apache) License; you may not use this
-file except in compliance with the License. A copy of the License is in the
-'LICENSE.txt' file, which should be provided with this work.
+## Copyright
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-License for the specific language governing permissions and limitations
-under the License.
+Copyright 2009 NEHTA. Copyright 2021-2026 ADHA. Apache License 2.0 - see **LICENSE.txt**.
