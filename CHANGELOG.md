@@ -1,5 +1,10 @@
 # Changelog
 
+## 24.0.0
+
+- Java 24 release line (`maven.compiler.release=24`)
+- Apache Santuario `xmlsec` 4.0.4
+
 ## 21.0.0
 
 - Java 21 release line (`maven.compiler.release=21`)

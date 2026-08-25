@@ -12,6 +12,7 @@
 | **11.0.0** | 11        | `java-11` |
 | **17.0.0** | 17        | `java-17` |
 | **21.0.0** | 21        | `java-21` |
+| **24.0.0** | 24        | `java-24` |
 
 ## Key dependency
 
@@ -23,7 +24,7 @@ To update: change `xmlsec.version` in `pom.xml` properties and run `mvn verify`.
 
 ## Release process
 
-1. Ensure `java-21` branch is green.
+1. Ensure `java-24` branch is green.
 2. `mvn -B release:prepare release:perform -Prelease` (GPG key required).
 3. Sonatype Central Portal auto-publishes after closing.
 

@@ -8,13 +8,13 @@ Java implementation of XML Secured Payload Profiles for the Australian Digital H
 <dependency>
     <groupId>au.gov.nehta</groupId>
     <artifactId>smi-xsp</artifactId>
-    <version>21.0.0</version>
+    <version>24.0.0</version>
 </dependency>
 ```
 
 ## Runtime requirements
 
-- Java 21 or later
+- Java 24 or later
 - Apache Santuario `xmlsec` 4.0.4 arrives transitively with this artifact
 
 ## Versioning
@@ -25,10 +25,11 @@ Java implementation of XML Secured Payload Profiles for the Australian Digital H
 | **11.0.0** | 11 | Apache Santuario `xmlsec` 4.0.4 |
 | **17.0.0** | 17 | Apache Santuario `xmlsec` 4.0.4 |
 | **21.0.0** | 21 | Apache Santuario `xmlsec` 4.0.4 |
+| **24.0.0** | 24 | Apache Santuario `xmlsec` 4.0.4 |
 
 ## Cryptography strength
 
-Java 21 enables unlimited-strength JCE by default. `CertificateUtils.checkJCEpolicyIsUnlimited()` still fails fast if AES-256 or RSA (>= 1024-bit) is blocked.
+Java 24 enables unlimited-strength JCE by default. `CertificateUtils.checkJCEpolicyIsUnlimited()` still fails fast if AES-256 or RSA (>= 1024-bit) is blocked.
 
 ## Building from source
 

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- JDK 21
+- JDK 24
 - Maven 3.6+
 
 ## Local builds
@@ -33,13 +33,13 @@ mvn -B "-Dgpg.skip=true" -DskipTests clean package
 
 ## Code style
 
-- Java 21 source and target (`maven.compiler.release=21`)
+- Java 24 source and target (`maven.compiler.release=24`)
 - All source files must be ASCII only
 - Apache Santuario `xmlsec` 4.0.4
 
 ## Pull requests
 
-Target the `java-21` branch. Ensure `mvn verify` passes before opening a PR.
+Target the `java-24` branch. Ensure `mvn verify` passes before opening a PR.
 
 ## Copyright
 
