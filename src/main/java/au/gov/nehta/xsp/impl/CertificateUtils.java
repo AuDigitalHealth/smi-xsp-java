@@ -36,8 +36,7 @@ public final class CertificateUtils {
 
     /**
      * Checks that AES-256 and RSA key lengths required by XSP are allowed by the
-     * JCE policy on this JVM. On Java 17 and later, unlimited strength is the
-     * default.
+     * JCE policy on this JVM. On Java 21, unlimited strength is the default.
      *
      * @throws XspException Thrown if the encryption ciphers used by XSP are not supported.
      */

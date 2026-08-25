@@ -5,7 +5,7 @@ import org.junit.Test;
 public class CertificateUtilsTest {
 
     @Test
-    public void checkJCEpolicyIsUnlimited_passesOnJava17() throws Exception {
+    public void checkJCEpolicyIsUnlimited_passesOnJava21() throws Exception {
         CertificateUtils.checkJCEpolicyIsUnlimited();
     }
 

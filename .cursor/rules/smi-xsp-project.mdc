@@ -18,6 +18,7 @@ The **first number** of the Maven version is the **Java SE** target.
 | **8.0.0**  | 8    | **javax** / Apache Santuario 2.3.x |
 | **11.0.0** | 11   | Apache Santuario 4.0.4             |
 | **17.0.0** | 17   | Apache Santuario 4.0.4             |
+| **21.0.0** | 21   | Apache Santuario 4.0.4             |
 
 **Git branch mapping (maintainers only - never in integrator docs):**
 
@@ -26,14 +27,15 @@ The **first number** of the Maven version is the **Java SE** target.
 | **8.0.0**  | `java-8`            |
 | **11.0.0** | `java-11`           |
 | **17.0.0** | `java-17`           |
+| **21.0.0** | `java-21`           |
 
-## This 17.0.0 line
+## This 21.0.0 line
 
-**`17.0.0-SNAPSHOT`**: Java **17**, Apache Santuario **`xmlsec` 4.0.4**. No JAX-WS or JAXB API dependencies.
+**`21.0.0-SNAPSHOT`**: Java **21**, Apache Santuario **`xmlsec` 4.0.4**. No JAX-WS or JAXB API dependencies.
 
 ## Build
 
-- JDK **17+**, from repo root: `mvn -B "-Dgpg.skip=true" clean verify` (quote `-D` on PowerShell).
+- JDK **21+**, from repo root: `mvn -B "-Dgpg.skip=true" clean verify` (quote `-D` on PowerShell).
 - Default Surefire: all tests.
 - **`-Pcoverage`**: JaCoCo report.
 
