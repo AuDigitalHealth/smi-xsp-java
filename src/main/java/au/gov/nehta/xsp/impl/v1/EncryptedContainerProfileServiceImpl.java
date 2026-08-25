@@ -16,7 +16,6 @@ package au.gov.nehta.xsp.impl.v1;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
-import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.SecretKey;
@@ -74,7 +73,7 @@ public class EncryptedContainerProfileServiceImpl implements EncryptedContainerP
         DomUtils.checkNotNullOrEmpty(payloadDoc, "payloadDoc");
         ArgumentUtils.checkNotNull(certificate, "certificate");
 
-        return create(payloadDoc, Collections.singletonList(certificate));
+        return create(payloadDoc, List.of(certificate));
     }
 
     @Override
@@ -133,7 +132,7 @@ public class EncryptedContainerProfileServiceImpl implements EncryptedContainerP
         ArgumentUtils.checkNotNull(sessionKey, "sessionKey");
         ArgumentUtils.checkNotNull(certificate, "certificate");
 
-        return create(payloadDoc, sessionKey, Collections.singletonList(certificate));
+        return create(payloadDoc, sessionKey, List.of(certificate));
     }
 
     @Override

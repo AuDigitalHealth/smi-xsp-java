@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 - 2021 NEHTA
+ * Copyright 2009 NEHTA
  *
  * Licensed under the NEHTA Open Source (Apache) License; you may not use this file except in compliance with the
  * License. A copy of the License is in the 'LICENSE.txt' file, which should be provided with this work.
@@ -10,10 +10,15 @@
  */
 package au.gov.nehta.common.utils;
 
-import org.w3c.dom.*;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,26 +29,32 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * Utility class to manipulate DOM objects.
  */
 public final class DomUtils {
 
-    /*
-     * Factory instances.
-     */
-    private static DocumentBuilderFactory DOCBUILDER_FACTORY;
+    private static final DocumentBuilderFactory DOCBUILDER_FACTORY = createDocumentBuilderFactory();
+
+    private static DocumentBuilderFactory createDocumentBuilderFactory() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        return factory;
+    }
 
     private static DocumentBuilder getDocumentBuilder()
             throws ParserConfigurationException {
-        if (DOCBUILDER_FACTORY == null) {
-            DOCBUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-            DOCBUILDER_FACTORY.setNamespaceAware(true);
-        }
         return DOCBUILDER_FACTORY.newDocumentBuilder();
     }
 
@@ -51,7 +62,7 @@ public final class DomUtils {
      * Creates a new empty XML document.
      *
      * @return Empty XML document.
-     * @throws ParserConfigurationException Exception if any parser problem.
+     * @throws ParserConfigurationException If there are config problems.
      */
     public static Document newDocument() throws ParserConfigurationException {
         return getDocumentBuilder().newDocument();
@@ -62,7 +73,7 @@ public final class DomUtils {
      *
      * @param rootNode Root node. Cannot be null.
      * @return Created XML document.
-     * @throws ParserConfigurationException Exception if any parser problem.
+     * @throws ParserConfigurationException If there are config problems.
      */
     public static Document newDocument(Node rootNode)
             throws ParserConfigurationException {
@@ -79,9 +90,9 @@ public final class DomUtils {
      *
      * @param file File path to the XML file. Cannot be null.
      * @return Loaded XML document.
-     * @throws ParserConfigurationException Exception if any parser problem.
-     * @throws IOException Exception if problems reading file.
-     * @throws SAXException Exception if problems with SAX.
+     * @throws ParserConfigurationException If there are config problems.
+     * @throws IOException                  If there is a file reading problem.
+     * @throws SAXException                 If there is a parsing issue.
      */
     public static Document parse(File file) throws ParserConfigurationException,
             IOException, SAXException {
@@ -95,9 +106,9 @@ public final class DomUtils {
      *
      * @param reader Input character stream containing the XML content. Cannot be null.
      * @return Loaded XML document.
-     * @throws ParserConfigurationException Exception if any parser problem.
-     * @throws IOException Exception if problems reading file.
-     * @throws SAXException Exception if problems with SAX.
+     * @throws ParserConfigurationException If there is a config issue.
+     * @throws IOException                  If there is a file reading problem.
+     * @throws SAXException                 if there is a parsing issue.
      */
     public static Document parse(Reader reader)
             throws ParserConfigurationException, IOException, SAXException {
@@ -112,9 +123,9 @@ public final class DomUtils {
      * @param reader       Input character stream containing the XML content. Cannot be null.
      * @param errorHandler Callback handler for errors from parser. Optional.
      * @return Loaded XML document.
-     * @throws ParserConfigurationException Exception if any parser problem.
-     * @throws IOException Exception if problems reading file.
-     * @throws SAXException Exception if problems with SAX.
+     * @throws ParserConfigurationException If there is a config issue.
+     * @throws IOException                  If there is a file reading problem.
+     * @throws SAXException                 If there is a parsing issue.
      */
     public static Document parse(Reader reader, ErrorHandler errorHandler)
             throws ParserConfigurationException, SAXException, IOException {
@@ -137,8 +148,8 @@ public final class DomUtils {
      *
      * @param xmlElem An XML {@code Element}. Cannot be null.
      * @return A serialised XML representation of the XML {@code Document}.
-     * @throws TransformerException Exception if any transformation problems.
-     * @throws IOException Exception if problems writing.
+     * @throws TransformerException If there is a transformation issue.
+     * @throws IOException          If there is a writing issue.
      */
     public static String serialiseToString(Element xmlElem)
             throws TransformerException, IOException {
@@ -154,8 +165,8 @@ public final class DomUtils {
      *
      * @param xmlDoc An XML {@code Document}. Cannot be null.
      * @return A serialised XML representation of the XML {@code Document}.
-     * @throws TransformerException Exception if any transformation problems.
-     * @throws IOException Exception if problems writing.
+     * @throws TransformerException If there is a transformation issue.
+     * @throws IOException          If there is a writing issue.
      */
     public static String serialiseToString(Document xmlDoc)
             throws TransformerException, IOException {
@@ -171,15 +182,17 @@ public final class DomUtils {
      *
      * @param xmlDoc An XML {@code Document}. Cannot be null.
      * @param file   The file to serialise the the XML Document to. Cannot be null.
-     * @throws TransformerException Exception if any transformation problems.
-     * @throws IOException Exception if problems writing.
+     * @throws TransformerException If there is a transformation issue.
+     * @throws IOException          If there is a writing issue.
      */
     public static void serialise(Document xmlDoc, File file)
             throws TransformerException, IOException {
         assert (xmlDoc != null) : "'xmlDoc' is null.";
         assert (file != null) : "'file' is null.";
 
-        serialiseNode(xmlDoc, new FileWriter(file));
+        try (Writer writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8)) {
+            serialiseNode(xmlDoc, writer);
+        }
     }
 
     /**
@@ -188,8 +201,8 @@ public final class DomUtils {
      * @param xmlDoc An XML {@code Document}. Cannot be null.
      * @param writer A character stream to which the XML Document is serialised. Cannot
      *               be null.
-     * @throws TransformerException Exception if any transformation problems.
-     * @throws IOException Exception if any problems writing.
+     * @throws TransformerException If there is a transformation issue.
+     * @throws IOException          If there is a writing issue.
      */
     public static void serialise(Document xmlDoc, Writer writer)
             throws TransformerException, IOException {
@@ -211,13 +224,11 @@ public final class DomUtils {
         Transformer transformer = factory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
-        try {
+        try (Writer owned = writer) {
             DOMSource source = new DOMSource(xmlNode);
-            StreamResult result = new StreamResult(writer);
+            StreamResult result = new StreamResult(owned);
             transformer.transform(source, result);
-            writer.flush();
-        } finally {
-            writer.close();
+            owned.flush();
         }
     }
 
@@ -254,7 +265,7 @@ public final class DomUtils {
     public static List<Element> getChildElements(Node node) {
         assert (node != null) : "'node' is null.";
 
-        List<Element> childElems = new ArrayList<Element>();
+        List<Element> childElems = new ArrayList<>();
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
@@ -282,12 +293,12 @@ public final class DomUtils {
                                           String tagName) {
         assert (element != null) : "'element' is null.";
         assert (namespace != null) : "'namespace' is null.";
-        assert (namespace.trim().length() > 0) : "'namespace' is a blank string.";
+        assert (!namespace.trim().isEmpty()) : "'namespace' is a blank string.";
         assert (tagName != null) : "'tagName' is null.";
-        assert (tagName.trim().length() > 0) : "'tagName' is a blank string.";
+        assert (!tagName.trim().isEmpty()) : "'tagName' is a blank string.";
 
         List<Element> childElems = getChildElements(element, namespace, tagName);
-        if (childElems.size() == 0) {
+        if (childElems.isEmpty()) {
             throw new IllegalArgumentException("No '{" + namespace + "}" + tagName
                     + "' element found.");
         } else if (childElems.size() > 1) {
@@ -315,11 +326,11 @@ public final class DomUtils {
                                                  String namespace, String tagName) {
         assert (element != null) : "'element' is null.";
         assert (namespace != null) : "'namespace' is null.";
-        assert (namespace.trim().length() > 0) : "'namespace' is a blank string.";
+        assert (!namespace.trim().isEmpty()) : "'namespace' is a blank string.";
         assert (tagName != null) : "'tagName' is null.";
-        assert (tagName.trim().length() > 0) : "'tagName' is a blank string.";
+        assert (!tagName.trim().isEmpty()) : "'tagName' is a blank string.";
 
-        List<Element> childElems = new ArrayList<Element>();
+        List<Element> childElems = new ArrayList<>();
         NodeList childNodes = element.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
@@ -348,9 +359,9 @@ public final class DomUtils {
                                     String attrValue) {
         assert (elem != null) : "'elem' is null.";
         assert (attrName != null) : "'attrName' is null.";
-        assert (attrName.trim().length() > 0) : "'attrName' is a blank string.";
+        assert (!attrName.trim().isEmpty()) : "'attrName' is a blank string.";
         assert (attrValue != null) : "'attrValue' is null.";
-        assert (attrValue.trim().length() > 0) : "'attrValue' is a blank string.";
+        assert (!attrValue.trim().isEmpty()) : "'attrValue' is a blank string.";
 
         Document ownerDoc = elem.getOwnerDocument();
 
@@ -369,11 +380,7 @@ public final class DomUtils {
     public static boolean isDocumentEmpty(Document xmlDoc) {
         assert (xmlDoc != null) : "'xmlDoc' is null.";
 
-        if (xmlDoc.getDocumentElement() == null) {
-            return true;
-        }
-
-        return false;
+        return xmlDoc.getDocumentElement() == null;
     }
 
     /**
@@ -402,9 +409,9 @@ public final class DomUtils {
     public static boolean checkElement(Element elem, String name, String namespace) {
         assert (elem != null) : "'elem' is null.";
         assert (name != null) : "'name' is null.";
-        assert (name.trim().length() > 0) : "'name' is a blank string.";
+        assert (!name.trim().isEmpty()) : "'name' is a blank string.";
         assert (namespace != null) : "'namespace' is null.";
-        assert (namespace.trim().length() > 0) : "'namespace' is a blank string.";
+        assert (!namespace.trim().isEmpty()) : "'namespace' is a blank string.";
 
         return (elem.getLocalName().equals(name) && elem.getNamespaceURI().equals(
                 namespace));
@@ -440,7 +447,7 @@ public final class DomUtils {
 
             // Loop through child nodes
             boolean hasChildElements = false;
-            List<Node> nodesToRemove = new ArrayList<Node>();
+            List<Node> nodesToRemove = new ArrayList<>();
             for (int idx = 0; idx < children.getLength(); idx++) {
                 Node childNode = children.item(idx);
                 if (childNode instanceof Element) {
@@ -457,7 +464,7 @@ public final class DomUtils {
                     // If the child text node is made up of whitespace only, mark it for
                     // removal
                     String childTextData = textChildNode.getData();
-                    if (childTextData.trim().length() == 0) {
+                    if (childTextData.trim().isEmpty()) {
                         nodesToRemove.add(textChildNode);
                     }
                 }
@@ -468,11 +475,11 @@ public final class DomUtils {
                 xmlElem.removeChild(nodeToRemove);
             }
 
-            // Remove leading and trailing whitespace if element is just text
+            // Remove from leading and trailing whitespace if element is just text
             // content only
             if (!hasChildElements) {
                 String textContent = xmlElem.getTextContent();
-                if (!textContent.isEmpty()) {
+                if (textContent.length() > 0) {
                     xmlElem.setTextContent(textContent.trim());
                 }
             }

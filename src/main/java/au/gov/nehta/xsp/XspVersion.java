@@ -28,16 +28,10 @@ public enum XspVersion {
      */
     V_2010("2010");
 
-    /*
-     * Stores version ID.
-     */
-    private String id;
+    private final String id;
 
-    /*
-     * Private constructor that sets the version ID.
-     */
     XspVersion(String id) {
-        assert ((id != null) && (id.length() > 0));
+        assert ((id != null) && !id.isEmpty());
         this.id = id;
     }
 
@@ -62,13 +56,12 @@ public enum XspVersion {
      * @return XspVersion enum or null if unknown version ID.
      */
     public static XspVersion getVersion(String versionId) {
-        XspVersion version = null;
-        if (V_1_2.getId().equals(versionId)) {
-            version = V_1_2;
-        } else if (V_2010.getId().equals(versionId)) {
-            version = V_2010;
+        for (XspVersion version : values()) {
+            if (version.id.equals(versionId)) {
+                return version;
+            }
         }
-        return version;
+        return null;
     }
 
 }
