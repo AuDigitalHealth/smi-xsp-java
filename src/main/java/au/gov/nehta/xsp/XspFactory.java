@@ -13,19 +13,18 @@
  */
 package au.gov.nehta.xsp;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import au.gov.nehta.common.utils.ArgumentUtils;
+import au.gov.nehta.xsp.impl.v1.EncryptedContainerProfileServiceImpl;
 import au.gov.nehta.xsp.impl.v1.SignedContainerProfileServiceImpl;
+import au.gov.nehta.xsp.impl.v1.XmlEncryptionProfileServiceImpl;
 import au.gov.nehta.xsp.impl.v1.XmlSignatureProfileServiceImpl;
 import au.gov.nehta.xsp.impl.v1.XspNamespaceConstants;
 
 public class XspFactory {
 
-    /*
-     * Singleton instance.
-     */
     private static final XspFactory instance = new XspFactory();
 
     /**
@@ -38,77 +37,56 @@ public class XspFactory {
         return XspFactory.instance;
     }
 
-    /*
-     * Cache of supported services for "XML Signature Profile".
-     */
-    private final Map<XspVersion, XmlSignatureProfileService> xmlSigServices = new HashMap<>();
+    private final Map<XspVersion, XmlSignatureProfileService> xmlSigServices =
+            new EnumMap<>(XspVersion.class);
 
-    /*
-     * Cache of supported services for "Signed Container Profile".
-     */
-    private final Map<XspVersion, SignedContainerProfileService> signedContainerServices = new HashMap<>();
+    private final Map<XspVersion, SignedContainerProfileService> signedContainerServices =
+            new EnumMap<>(XspVersion.class);
 
-    /*
-     * Cache of supported services for "XML Encryption Profile".
-     */
-    private final Map<XspVersion, XmlEncryptionProfileService> xmlEncServices = new HashMap<>();
+    private final Map<XspVersion, XmlEncryptionProfileService> xmlEncServices =
+            new EnumMap<>(XspVersion.class);
 
-    /*
-     * Cache of supported services for "Encrypted Container Profile".
-     */
-    private final Map<XspVersion, EncryptedContainerProfileService> encryptedContainerServices = new HashMap<>();
+    private final Map<XspVersion, EncryptedContainerProfileService> encryptedContainerServices =
+            new EnumMap<>(XspVersion.class);
 
-    /*
-     * Private constructor to prevent instantiation.
-     */
     private XspFactory() {
         addImplementationVersion1();
     }
 
     private void addImplementationVersion1() {
-        // Set "XML Signature Profile" service for XSP versions: 1.2, 2010
-
-        XmlSignatureProfileService xmlSigService_V_1_2 = new XmlSignatureProfileServiceImpl(XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_1_2);
-        XmlSignatureProfileService xmlSigService_V_2010 = new XmlSignatureProfileServiceImpl(XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_2010);
+        XmlSignatureProfileService xmlSigService_V_1_2 =
+                new XmlSignatureProfileServiceImpl(XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_1_2);
+        XmlSignatureProfileService xmlSigService_V_2010 =
+                new XmlSignatureProfileServiceImpl(XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_2010);
 
         this.xmlSigServices.put(XspVersion.V_1_2, xmlSigService_V_1_2);
         this.xmlSigServices.put(XspVersion.V_2010, xmlSigService_V_2010);
 
-        // Set "Signed Container Profile" service for XSP versions: 1.2, 2010
-        // Have to create separate instances since the XML namespaces are different.
-        this.signedContainerServices
-                .put(
-                        XspVersion.V_1_2,
-                        new SignedContainerProfileServiceImpl(
-                                XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_1_2,
-                                xmlSigService_V_1_2));
-        this.signedContainerServices
-                .put(
-                        XspVersion.V_2010,
-                        new SignedContainerProfileServiceImpl(
-                                XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_2010,
-                                xmlSigService_V_2010));
+        this.signedContainerServices.put(
+                XspVersion.V_1_2,
+                new SignedContainerProfileServiceImpl(
+                        XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_1_2,
+                        xmlSigService_V_1_2));
+        this.signedContainerServices.put(
+                XspVersion.V_2010,
+                new SignedContainerProfileServiceImpl(
+                        XspNamespaceConstants.NS_SIGNED_PAYLOAD_V_2010,
+                        xmlSigService_V_2010));
 
-        // Set "XML Encryption Profile" service for XSP versions: 1.2, 2010
-        // Can use the same implementation since there is no difference
-        XmlEncryptionProfileService xmlEncService = new au.gov.nehta.xsp.impl.v1.XmlEncryptionProfileServiceImpl();
+        XmlEncryptionProfileService xmlEncService = new XmlEncryptionProfileServiceImpl();
         this.xmlEncServices.put(XspVersion.V_1_2, xmlEncService);
         this.xmlEncServices.put(XspVersion.V_2010, xmlEncService);
 
-        // Set "Encrypted Container Profile" service for XSP versions: 1.2, 2010
-        // Have to create separate instances since the XML namespaces are different.
-        this.encryptedContainerServices
-                .put(
-                        XspVersion.V_1_2,
-                        new au.gov.nehta.xsp.impl.v1.EncryptedContainerProfileServiceImpl(
-                                au.gov.nehta.xsp.impl.v1.XspNamespaceConstants.NS_ENCRYPTED_PAYLOAD_V_1_2,
-                                xmlEncService));
-        this.encryptedContainerServices
-                .put(
-                        XspVersion.V_2010,
-                        new au.gov.nehta.xsp.impl.v1.EncryptedContainerProfileServiceImpl(
-                                au.gov.nehta.xsp.impl.v1.XspNamespaceConstants.NS_ENCRYPTED_PAYLOAD_V_2010,
-                                xmlEncService));
+        this.encryptedContainerServices.put(
+                XspVersion.V_1_2,
+                new EncryptedContainerProfileServiceImpl(
+                        XspNamespaceConstants.NS_ENCRYPTED_PAYLOAD_V_1_2,
+                        xmlEncService));
+        this.encryptedContainerServices.put(
+                XspVersion.V_2010,
+                new EncryptedContainerProfileServiceImpl(
+                        XspNamespaceConstants.NS_ENCRYPTED_PAYLOAD_V_2010,
+                        xmlEncService));
     }
 
     /**

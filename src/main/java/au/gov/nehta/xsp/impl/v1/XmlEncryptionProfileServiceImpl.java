@@ -57,45 +57,45 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        Element elementToEncrypt,
-                        X509Certificate certificate) throws XspException {
+            Element elementToEncrypt,
+            X509Certificate certificate) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNull(elementToEncrypt, "elementToEncrypt");
         ArgumentUtils.checkNotNull(certificate, "certificate");
 
-        encrypt(elementToAddEncKeysTo, Collections.singletonList(elementToEncrypt), generateRandomSessionKey(),
-                Collections.singletonList(certificate));
+        encrypt(elementToAddEncKeysTo, List.of(elementToEncrypt), generateRandomSessionKey(),
+                List.of(certificate));
     }
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        List<Element> elementsToEncrypt,
-                        X509Certificate certificate) throws XspException {
+            List<Element> elementsToEncrypt,
+            X509Certificate certificate) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNull(certificate, "certificate");
 
         encrypt(elementToAddEncKeysTo, elementsToEncrypt, generateRandomSessionKey(),
-                Collections.singletonList(certificate));
+                List.of(certificate));
     }
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        Element elementToEncrypt,
-                        List<X509Certificate> certificates) throws XspException {
+            Element elementToEncrypt,
+            List<X509Certificate> certificates) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNull(elementToEncrypt, "elementToEncrypt");
 
-        encrypt(elementToAddEncKeysTo, Collections.singletonList(elementToEncrypt), generateRandomSessionKey(),
+        encrypt(elementToAddEncKeysTo, List.of(elementToEncrypt), generateRandomSessionKey(),
                 certificates);
     }
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        List<Element> elementsToEncrypt,
-                        List<X509Certificate> certificates) throws XspException {
+            List<Element> elementsToEncrypt,
+            List<X509Certificate> certificates) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNullNorEmpty(elementsToEncrypt, "elementsToEncrypt");
@@ -106,51 +106,51 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        Element elementToEncrypt,
-                        SecretKey sessionKey,
-                        X509Certificate certificate) throws XspException {
+            Element elementToEncrypt,
+            SecretKey sessionKey,
+            X509Certificate certificate) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNull(elementToEncrypt, "elementToEncrypt");
         ArgumentUtils.checkNotNull(certificate, "certificate");
 
-        encrypt(elementToAddEncKeysTo, Collections.singletonList(elementToEncrypt), sessionKey,
-                Collections.singletonList(certificate));
+        encrypt(elementToAddEncKeysTo, List.of(elementToEncrypt), sessionKey,
+                List.of(certificate));
     }
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        List<Element> elementsToEncrypt,
-                        SecretKey sessionKey,
-                        X509Certificate certificate) throws XspException {
+            List<Element> elementsToEncrypt,
+            SecretKey sessionKey,
+            X509Certificate certificate) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNullNorEmpty(elementsToEncrypt, "elementsToEncrypt");
         ArgumentUtils.checkNotNull(sessionKey, "sessionKey");
         ArgumentUtils.checkNotNull(certificate, "certificate");
 
-        encrypt(elementToAddEncKeysTo, elementsToEncrypt, sessionKey, Collections.singletonList(certificate));
+        encrypt(elementToAddEncKeysTo, elementsToEncrypt, sessionKey, List.of(certificate));
     }
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        Element elementToEncrypt,
-                        SecretKey sessionKey,
-                        List<X509Certificate> certificates) throws XspException {
+            Element elementToEncrypt,
+            SecretKey sessionKey,
+            List<X509Certificate> certificates) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNull(elementToEncrypt, "elementToEncrypt");
         ArgumentUtils.checkNotNull(sessionKey, "sessionKey");
         ArgumentUtils.checkNotNullNorEmpty(certificates, "certificates");
 
-        encrypt(elementToAddEncKeysTo, Collections.singletonList(elementToEncrypt), sessionKey, certificates);
+        encrypt(elementToAddEncKeysTo, List.of(elementToEncrypt), sessionKey, certificates);
     }
 
     @Override
     public void encrypt(Element elementToAddEncKeysTo,
-                        List<Element> elementsToEncrypt,
-                        SecretKey sessionKey,
-                        List<X509Certificate> certificates) throws XspException {
+            List<Element> elementsToEncrypt,
+            SecretKey sessionKey,
+            List<X509Certificate> certificates) throws XspException {
 
         ArgumentUtils.checkNotNull(elementToAddEncKeysTo, "elementToAddEncKeysTo");
         ArgumentUtils.checkNotNullNorEmpty(elementsToEncrypt, "elementsToEncrypt");
@@ -218,44 +218,44 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public void decrypt(Element encryptedKeyElem,
-                        Element encryptedDataElem,
-                        X500PrivateCredential credential) throws KeyMismatchException, XspException {
+            Element encryptedDataElem,
+            X500PrivateCredential credential) throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNull(encryptedKeyElem, "encryptedKeyElem");
         ArgumentUtils.checkNotNull(encryptedDataElem, "encryptedDataElem");
         ArgumentUtils.checkNotNull(credential, "credential");
 
-        decrypt(Collections.singletonList(encryptedKeyElem), Collections.singletonList(encryptedDataElem), credential);
+        decrypt(List.of(encryptedKeyElem), List.of(encryptedDataElem), credential);
     }
 
     @Override
     public void decrypt(List<Element> encryptedKeyElems,
-                        Element encryptedDataElem,
-                        X500PrivateCredential credential) throws KeyMismatchException, XspException {
+            Element encryptedDataElem,
+            X500PrivateCredential credential) throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
         ArgumentUtils.checkNotNull(encryptedDataElem, "encryptedDataElem");
         ArgumentUtils.checkNotNull(credential, "credential");
 
-        decrypt(encryptedKeyElems, Collections.singletonList(encryptedDataElem), credential);
+        decrypt(encryptedKeyElems, List.of(encryptedDataElem), credential);
     }
 
     @Override
     public void decrypt(Element encryptedKeyElem,
-                        List<Element> encryptedDataElems,
-                        X500PrivateCredential credential) throws KeyMismatchException, XspException {
+            List<Element> encryptedDataElems,
+            X500PrivateCredential credential) throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNull(encryptedKeyElem, "encryptedKeyElem");
         ArgumentUtils.checkNotNullNorEmpty(encryptedDataElems, "encryptedDataElems");
         ArgumentUtils.checkNotNull(credential, "credential");
 
-        decrypt(Collections.singletonList(encryptedKeyElem), encryptedDataElems, credential);
+        decrypt(List.of(encryptedKeyElem), encryptedDataElems, credential);
     }
 
     @Override
     public void decrypt(List<Element> encryptedKeyElems,
-                        List<Element> encryptedDataElems,
-                        X500PrivateCredential credential) throws KeyMismatchException, XspException {
+            List<Element> encryptedDataElems,
+            X500PrivateCredential credential) throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
         ArgumentUtils.checkNotNullNorEmpty(encryptedDataElems, "encryptedDataElems");
@@ -370,46 +370,46 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public void decrypt(Element encryptedKeyElem,
-                        Element encryptedDataElem,
-                        SecretKey sessionKey)
+            Element encryptedDataElem,
+            SecretKey sessionKey)
             throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNull(encryptedKeyElem, "encryptedKeyElem");
         ArgumentUtils.checkNotNull(encryptedDataElem, "encryptedDataElem");
         ArgumentUtils.checkNotNull(sessionKey, "sessionKey");
 
-        decrypt(Collections.singletonList(encryptedKeyElem), Collections.singletonList(encryptedDataElem), sessionKey);
+        decrypt(List.of(encryptedKeyElem), List.of(encryptedDataElem), sessionKey);
     }
 
     @Override
     public void decrypt(List<Element> encryptedKeyElems,
-                        Element encryptedDataElem,
-                        SecretKey sessionKey)
+            Element encryptedDataElem,
+            SecretKey sessionKey)
             throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
         ArgumentUtils.checkNotNull(encryptedDataElem, "encryptedDataElem");
         ArgumentUtils.checkNotNull(sessionKey, "sessionKey");
 
-        decrypt(encryptedKeyElems, Collections.singletonList(encryptedDataElem), sessionKey);
+        decrypt(encryptedKeyElems, List.of(encryptedDataElem), sessionKey);
     }
 
     @Override
     public void decrypt(Element encryptedKeyElem,
-                        List<Element> encryptedDataElems,
-                        SecretKey sessionKey) throws KeyMismatchException, XspException {
+            List<Element> encryptedDataElems,
+            SecretKey sessionKey) throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNull(encryptedKeyElem, "encryptedKeyElem");
         ArgumentUtils.checkNotNullNorEmpty(encryptedDataElems, "encryptedDataElems");
         ArgumentUtils.checkNotNull(sessionKey, "sessionKey");
 
-        decrypt(Collections.singletonList(encryptedKeyElem), encryptedDataElems, sessionKey);
+        decrypt(List.of(encryptedKeyElem), encryptedDataElems, sessionKey);
     }
 
     @Override
     public void decrypt(List<Element> encryptedKeyElems,
-                        List<Element> encryptedDataElems,
-                        SecretKey sessionKey) throws KeyMismatchException, XspException {
+            List<Element> encryptedDataElems,
+            SecretKey sessionKey) throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
         ArgumentUtils.checkNotNullNorEmpty(encryptedDataElems, "encryptedDataElems");
@@ -489,8 +489,8 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public Key getSessionKey(List<Element> encryptedKeyElems,
-                             Element encryptedDataElem,
-                             X500PrivateCredential credential)
+            Element encryptedDataElem,
+            X500PrivateCredential credential)
             throws KeyMismatchException, XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
@@ -593,13 +593,13 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public X509Certificate getEncryptingCertificate(Element encryptedKeyElem,
-                                                    KeyStore keyStore)
+            KeyStore keyStore)
             throws XspException {
 
         ArgumentUtils.checkNotNull(encryptedKeyElem, "encryptedKeyElem");
         ArgumentUtils.checkNotNull(keyStore, "keyStore");
 
-        List<X509Certificate> certificates = getEncryptingCertificates(Collections.singletonList(encryptedKeyElem),
+        List<X509Certificate> certificates = getEncryptingCertificates(List.of(encryptedKeyElem),
                 keyStore);
         if (certificates.isEmpty()) {
             return null;
@@ -609,15 +609,14 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public List<X509Certificate> getEncryptingCertificates(List<Element> encryptedKeyElems,
-                                                           KeyStore keyStore) throws XspException {
+            KeyStore keyStore) throws XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
         ArgumentUtils.checkNotNull(keyStore, "keyStore");
 
         List<X509Certificate> resultList = new ArrayList<>();
         try {
-            for (Enumeration<String> e = keyStore.aliases(); e.hasMoreElements(); ) {
-                String currentAlias = e.nextElement();
+            for (String currentAlias : Collections.list(keyStore.aliases())) {
                 X509Certificate currentCert = (X509Certificate) keyStore.getCertificate(currentAlias);
                 if (isEncryptingCertificate(encryptedKeyElems, currentCert)) {
                     resultList.add(currentCert);
@@ -633,7 +632,7 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
 
     @Override
     public boolean isEncryptingCertificate(List<Element> encryptedKeyElems,
-                                           X509Certificate certificate) throws XspException {
+            X509Certificate certificate) throws XspException {
 
         ArgumentUtils.checkNotNullNorEmpty(encryptedKeyElems, "encryptedKeyElems");
         ArgumentUtils.checkNotNull(certificate, "certificate");
@@ -653,9 +652,9 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
     }
 
     private Element encryptKey(Document containerDoc,
-                               SecretKey sessionKey,
-                               X509Certificate certificate,
-                               List<String> referenceIdList) throws XspException {
+            SecretKey sessionKey,
+            X509Certificate certificate,
+            List<String> referenceIdList) throws XspException {
 
         // Create a cipher used to encrypt the session key
         XMLCipher keyCipher;
@@ -665,7 +664,8 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
         } catch (Exception e) {
             throw new XspException(
                     "Couldn't create a cipher to encrypt the session key with certificate: "
-                            + CertificateUtils.getSubjectName(certificate) + ".", e);
+                            + CertificateUtils.getSubjectName(certificate) + ".",
+                    e);
         }
 
         // Create an 'encryptedKey' object
@@ -691,7 +691,8 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
         } catch (Exception e) {
             throw new XspException(
                     "Couldn't create the 'SKI' element within the 'X509Data' element for certificate: "
-                            + CertificateUtils.getSubjectName(certificate) + ".", e);
+                            + CertificateUtils.getSubjectName(certificate) + ".",
+                    e);
         }
 
         if ((referenceIdList != null) && !referenceIdList.isEmpty()) {
@@ -739,7 +740,7 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
      * the session key in an 'EncryptedKey' element, and false otherwise.
      */
     private static boolean matchesCertificate(EncryptedKey encryptedKey,
-                                              X509Certificate certificate)
+            X509Certificate certificate)
             throws XspException {
 
         assert (encryptedKey != null);
@@ -755,7 +756,8 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
         } catch (Exception ex) {
             throw new XspException(
                     "Error getting the subject key identifier value from from certificate: "
-                            + CertificateUtils.getSubjectName(certificate) + ".", ex);
+                            + CertificateUtils.getSubjectName(certificate) + ".",
+                    ex);
         }
 
         // Compare SKI values
@@ -794,7 +796,8 @@ public class XmlEncryptionProfileServiceImpl implements XmlEncryptionProfileServ
         } catch (Exception ex) {
             throw new XspException(
                     "Couldn't retrieve the 'X509Data' from the 'KeyInfo' in an 'EncryptedKey'. "
-                            + ex.getMessage(), ex);
+                            + ex.getMessage(),
+                    ex);
         }
 
         // Check there is a 'X509SKI' within the 'x509Data' object
