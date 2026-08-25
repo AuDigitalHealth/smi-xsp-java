@@ -3,7 +3,6 @@ package au.gov.nehta.xsp.impl.v1;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +70,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
         ArgumentUtils.checkNotNull(elementToSign, "elementToSign");
         ArgumentUtils.checkNotNull(credential, "credential");
 
-        sign(elementToAddSigTo, Collections.singletonList(elementToSign), Collections.singletonList(credential));
+        sign(elementToAddSigTo, List.of(elementToSign), List.of(credential));
     }
 
     @Override
@@ -80,7 +79,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
                      X500PrivateCredential credential) throws XspException {
         ArgumentUtils.checkNotNull(credential, "credential");
 
-        sign(elementToAddSigTo, elementsToSign, Collections.singletonList(credential));
+        sign(elementToAddSigTo, elementsToSign, List.of(credential));
     }
 
     @Override
@@ -89,7 +88,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
                      List<X500PrivateCredential> credentials) throws XspException {
         ArgumentUtils.checkNotNull(elementToSign, "elementToSign");
 
-        sign(elementToAddSigTo, Collections.singletonList(elementToSign), credentials);
+        sign(elementToAddSigTo, List.of(elementToSign), credentials);
     }
 
     @Override
@@ -199,7 +198,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
         ArgumentUtils.checkNotNull(signatureElem, "signatureElem");
         ArgumentUtils.checkNotNull(certificateValidator, "certificateValidator");
 
-        check(Collections.singletonList(signatureElem), certificateValidator);
+        check(List.of(signatureElem), certificateValidator);
     }
 
     /**
@@ -327,7 +326,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
                     (TransformParameterSpec) null);
 
             return XML_SIGNATURE_FACTORY.newReference("#" + referenceId, digestMethod,
-                    Collections.singletonList(transform), null, null);
+                    List.of(transform), null, null);
         } catch (Exception ex) {
             throw new XspException("Unable to create 'Reference'. " + ex.getMessage());
         }
@@ -361,8 +360,8 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
     private static KeyInfo newKeyInfo(X509Certificate certificate) {
         assert (certificate != null);
 
-        X509Data x509Data = KEY_INFO_FACTORY.newX509Data(Collections.singletonList(certificate));
-        return KEY_INFO_FACTORY.newKeyInfo(Collections.singletonList(x509Data));
+        X509Data x509Data = KEY_INFO_FACTORY.newX509Data(List.of(certificate));
+        return KEY_INFO_FACTORY.newKeyInfo(List.of(x509Data));
     }
 
     /*
@@ -386,7 +385,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
         }
 
         // Check there is only one 'ds:X509Data'
-        if (x509DataObjects.size() == 0) {
+        if (x509DataObjects.isEmpty()) {
             throw new XspException("The 'KeyInfo' in a 'Signature' doesn't specify an 'X509Data'.");
         }
         if (x509DataObjects.size() > 1) {
@@ -405,7 +404,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
         }
 
         // Check there is only one 'ds:X509Certificate'
-        if (certificates.size() == 0) {
+        if (certificates.isEmpty()) {
             throw new XspException("The 'X509Data' in a 'Signature' doesn't "
                     + "specify an 'X509Certificate'.");
         }
@@ -432,7 +431,7 @@ public class XmlSignatureProfileServiceImpl implements XmlSignatureProfileServic
         }
 
         List<Reference> referenceList = signedInfo.getReferences();
-        if ((referenceList == null) || (referenceList.size() == 0)) {
+        if ((referenceList == null) || referenceList.isEmpty()) {
             throw new XspException("The 'SignedInfo' in a 'Signature' does not have a 'Reference'.");
         }
         Map<String, byte[]> resultMap = new HashMap<>();
