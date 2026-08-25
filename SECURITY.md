@@ -10,6 +10,7 @@ Do not open a public GitHub issue for security vulnerabilities.
 
 | Version | Supported |
 | ------- | --------- |
+| 17.0.0 | Yes       |
 | 11.0.0 | Yes       |
 | 8.0.0 | Yes       |
 
