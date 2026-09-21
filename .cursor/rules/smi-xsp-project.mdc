@@ -1,0 +1,38 @@
+# smi-xsp-java
+
+Maven artifact **`au.gov.nehta:smi-xsp`** - Java classes for XML Secured Payload Profiles. **Not** facade clients or HI/MHR services.
+
+## Documentation
+
+Follow **`documentation-standards.mdc`**. Integrator docs use **version numbers** - not Git branch names.
+
+The **first number** of the Maven version is the **Java SE** target.
+
+| Version | Java | XML stack |
+| ---- | ---- | --- |
+| **8.0.0** | 8 | **javax** / Apache Santuario 2.3.x |
+| **11.0.0.1** | 11 | **Jakarta** / Apache Santuario 3.x+ |
+
+**Git branch mapping (maintainers only - never in integrator docs):**
+
+| Version | Official Git branch |
+| ---- | ---- |
+| **8.0.0** | `java-8` |
+| **11.0.0.1** | `java-11` |
+
+## This 8.0.0 line
+
+**`8.0.0-SNAPSHOT`**: Java **8**, **`javax`**, Apache Santuario **`xmlsec` 2.3.x** (last 2.3.x compatible with Java 8). No JAX-WS or Jakarta dependencies.
+
+## Build
+
+- JDK **8+**, from repo root: `mvn -B "-Dgpg.skip=true" clean verify` (quote `-D` on PowerShell).
+- Default Surefire: all tests.
+- **`-Pcoverage`**: JaCoCo report.
+
+## Doc split
+
+- **`documentation-standards.mdc`**: implementor-first, Maven Central default, local/OS sections, relative paths, no secrets
+- **`README.md`**: integrators (Maven Central default)
+- **`CONTRIBUTING.md`**: build from source, local SNAPSHOT
+- **`MAINTAINERS.md`**: POM internals
